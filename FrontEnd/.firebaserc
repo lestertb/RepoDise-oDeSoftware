@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "fir-angular-auth-cdb4a": {
+      "hosting": {
+        "FrontEnd": [
+          "fir-angular-auth-cdb4a"
+        ]
+      }
+    }
+  }
+}

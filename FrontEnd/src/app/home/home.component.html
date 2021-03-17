@@ -1,3 +1,5 @@
-<p>home works!</p>
+<h1>Bienvenido: {{datosUsuarioLoggedIn.user.displayName}}</h1>
+<h2>{{datosUsuarioLoggedIn.user.email}}</h2>
 
-<button (click)="logout()"> Cerrar Sesión</button>
+
+<button (click)="firebaseService.signOut()">Cerrar Sesión</button>
