@@ -2,7 +2,10 @@
 <h2>{{datosUsuarioLoggedIn.user.email}}</h2>
 
 <H1 class="centerText">OTHELLO GAME</H1>
-<div id="colorTurn" class="centerText">White Turn</div>
+<br>
+<br>
+<br>
+<div id="colorTurn" class="centerText" style="color: #020202; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; ">White Turn</div>
 <div id="grid">
   <div class="row">
     <div class="cell" id="cell00" (click)="selectCell(0,0);">
@@ -225,6 +228,8 @@
   <img class="iconPosition" src="assets/black-circle.png" alt="iconWhite">
 </div>
 
-<button (click)="resetGame()" class="resetButton">Refresh</button>
+<button (click)="resetGame()"  style="margin-left: 980px;">
+  <!-- <span data-text="Refresh">Refresh</span> -->Refresh
+</button>
 
-<button (click)="firebaseService.signOut()">Cerrar Sesión</button>
+<button (click)="firebaseService.signOut()" class="button" style="margin-right: 850px;">Cerrar Sesión</button>
