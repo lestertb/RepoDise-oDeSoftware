@@ -6,11 +6,11 @@ const bodyParser = require('body-parser');
 //Config FireBase
 const admin = require('firebase-admin');
 
-var serviceAccount = require("../configFireBase/fir-angular-auth-cdb4a-firebase-adminsdk-b03l1-beebf03460.json");
+var serviceAccount = require("../configFireBase/fir-angular-auth-cdb4a-firebase-adminsdk-b03l1-693344e399.json");
 
 admin.initializeApp({
   credencial: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://fir-angular-auth-cdb4a.firebaseio.com/'
+  databaseURL: 'https://fir-angular-auth-cdb4a-default-rtdb.firebaseio.com/'
 })
 
 const db = admin.database();
@@ -22,7 +22,10 @@ router.use(bodyParser.json());
 //Obtener centro de costos
 
 router.get('/', (req, res) => {
-  res.send('marlon es gay');
+  //db.ref('fir-angular-auth-cdb4a-default-rtdb').once('value', (snapshot) => {
+    //const data = snapshot.val();
+    res.send('Entré');
+  //});
 });
 
 router.post('/', (req, res) => {
@@ -30,8 +33,9 @@ router.post('/', (req, res) => {
     correo: req.body.correo,
     nombre: req.body.nombre
   }
-  res.send(newUser.correo, newUser.nombre);
-  //db.ref('usuarios').push(newUser);
+  //res.send(newUser.correo + newUser.nombre);
+  db.ref('contact').push(newUser);
+  res.send('Funca');
 });
 
 // router.get('/', (req, res) => {
