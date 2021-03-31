@@ -2,6 +2,10 @@ import { Component, OnInit, Output, EventEmitter, Renderer2  } from '@angular/co
 import {FirebaseService} from '../services/firebase.service';
 import {Router} from '@angular/router';
 
+
+//Services
+import { TableroService } from '../services/tablero.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -25,11 +29,21 @@ export class HomeComponent implements OnInit {
 
   datosUsuarioLoggedIn : any;
   // @Output() isLogout = new EventEmitter<void>()
-  constructor(private router: Router, public firebaseService: FirebaseService, private renderer: Renderer2) {
+  constructor(private router: Router, public firebaseService: FirebaseService,
+   private renderer: Renderer2,public tableroService: TableroService) {
     this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
     if (this.datosUsuarioLoggedIn == null) {
       this.router.navigate(['/login'])
     }
+
+    this.tableroService.getTablero()
+    .subscribe(
+    (data: any) => {
+      console.log(data);
+    }, (err: any) => {
+      console.error(err.error);
+    }
+  )
   }
 
   ngOnInit(): void {

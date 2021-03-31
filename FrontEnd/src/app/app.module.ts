@@ -14,8 +14,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
 
-
+import { HttpClientModule } from '@angular/common/http';
 import {FirebaseService} from './services/firebase.service';
+import {TableroService} from './services/tablero.service';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
@@ -31,9 +32,10 @@ import { HomeComponent } from './home/home.component';
     FormsModule, ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule
   ],
-  providers: [FirebaseService],
+  providers: [FirebaseService,TableroService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
