@@ -18,12 +18,16 @@ import { HttpClientModule } from '@angular/common/http';
 import {FirebaseService} from './services/firebase.service';
 import {TableroService} from './services/tablero.service';
 import { HomeComponent } from './home/home.component';
+import { LobbyComponent } from './lobby/lobby.component';
+import { InicioJugarComponent } from './inicio-jugar/inicio-jugar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    LobbyComponent,
+    InicioJugarComponent
   ],
   imports: [
     BrowserModule,
