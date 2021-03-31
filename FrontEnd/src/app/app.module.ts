@@ -17,12 +17,14 @@ import {environment} from '../environments/environment';
 
 import {FirebaseService} from './services/firebase.service';
 import { HomeComponent } from './home/home.component';
+import { LobbyComponent } from './lobby/lobby.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    LobbyComponent
   ],
   imports: [
     BrowserModule,
