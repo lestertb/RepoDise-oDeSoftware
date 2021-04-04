@@ -32,8 +32,8 @@ app.use((req, res, next) => {
 
 //Constantes que llaman a las rutas para ser corridas por el app.js
 
-const testFirebase = require('./routes/route.testFirebase');
-app.use('/test', testFirebase)
+const mainFirebase = require('./routes/route.mainFirebase');
+app.use('/routesFirebase', mainFirebase)
 
 // const cliente= require('./routes/route.cliente');
 // app.use('/cliente', cliente);
