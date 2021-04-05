@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   datosUsuarioLoggedIn : any;
 
+  displayName = "";
   email = "";
   password = "";
   errorMessage = ''; // validation error handle
@@ -36,7 +37,28 @@ export class LoginComponent implements OnInit {
     this.error = {name : '' , message:''};
   }
 
-validateFormRegister(email,password){
+validateFormRegister(displayName,email,password){
+  if (displayName.length === 0 ) {
+    this.errorMessage = "Please enter the name";
+    return false;
+  }
+  if (email.length === 0 ) {
+    this.errorMessage = "Please enter the email";
+    return false;
+  }
+  if (password.length === 0 ) {
+    this.errorMessage = "Please enter the password";
+    return false;
+  }
+  if (password.length < 6) {
+    this.errorMessage = "The password must be at least 6 characters";
+    return false;
+  }
+  this.errorMessage = "";
+  return true;
+}
+
+validateFormLogin(email,password){
   if (email.length === 0 ) {
     this.errorMessage = "Please enter the email";
     return false;
@@ -55,8 +77,8 @@ validateFormRegister(email,password){
 
 onSignup(){
   this.clearErrorMessage();
-  if (this.validateFormRegister(this.email, this.password)) {
-    this.firebaseService.registerWithEmail(this.email, this.password)
+  if (this.validateFormRegister(this.displayName,this.email, this.password)) {
+    this.firebaseService.registerWithEmail(this.displayName,this.email, this.password)
     .then(() => {
       Swal.fire({
         icon: 'success',
@@ -79,10 +101,10 @@ onSignup(){
 
 onSignin(){
   this.clearErrorMessage();
-  if (this.validateFormRegister(this.email, this.password)) {
+  if (this.validateFormLogin(this.email, this.password)) {
     this.firebaseService.loginWithEmail(this.email, this.password)
     .then(() => {
-      this.router.navigate(['/home'])
+      this.router.navigate(['/inicio'])
     }).catch(_error => {
       this.error = _error
       this.router.navigate(['/login'])
@@ -94,7 +116,7 @@ onSigninGoogle(){
   this.clearErrorMessage();
   this.firebaseService.loginWithGoogle()
   .then(() => {
-    this.router.navigate(['/home'])
+    this.router.navigate(['/inicio'])
   }).catch(_error => {
     this.error = _error
     this.router.navigate(['/login'])
@@ -106,7 +128,7 @@ onSigninFacebook(){
   this.clearErrorMessage();
   this.firebaseService.loginWithFacebook()
   .then(() => {
-    this.router.navigate(['/home'])
+    this.router.navigate(['/inicio'])
   }).catch(_error => {
     this.error = _error
     this.router.navigate(['/login'])

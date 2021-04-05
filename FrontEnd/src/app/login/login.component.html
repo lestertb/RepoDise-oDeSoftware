@@ -14,6 +14,7 @@
 				<a (click)="onSigninGoogle()" class="social"><i class="fab fa-google"></i></a>
 			</div>
 			<span>or use your email for registration</span>
+			<input type="displayName" #inputCorreo name="displayName" [(ngModel)]="displayName" placeholder="Name" required>
 			<input type="email" #inputCorreo name="email" [(ngModel)]="email" placeholder="Email" required>
 			<input type="password" #inputContra name="password" [(ngModel)]="password" placeholder="Password" required>
 			<p *ngIf="errorMessage.length > 0" class="" style="color:red;">{{errorMessage}}</p>

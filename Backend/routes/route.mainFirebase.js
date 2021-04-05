@@ -35,8 +35,8 @@ router.post('/Partida', (req,res) => {
       0:[0,0,0,0,0,0,0,0],
       1:[0,0,0,0,0,0,0,0],
       2:[0,0,0,0,0,0,0,0],
-      3:[0,0,0,0,0,0,0,0],
-      4:[0,0,0,0,0,0,0,0],
+      3:[0,0,0,1,2,0,0,0],
+      4:[0,0,0,2,1,0,0,0],
       5:[0,0,0,0,0,0,0,0],
       6:[0,0,0,0,0,0,0,0],
       7:[0,0,0,0,0,0,0,0]
@@ -57,9 +57,10 @@ router.post('/Partida', (req,res) => {
     }
 
   }).then(response => {
-
-    if (response)
-      return res.status(200).json({mensaje:"La partida se generó correctamente"});
+    if (response){
+      var idGame = response._path.segments[1];
+      return res.status(200).json({mensaje:"La partida se generó correctamente", idGame: idGame});
+    }
     else
       return res.status(200).json({mensaje:"Indefinido"});
 
@@ -85,6 +86,31 @@ router.get('/PartidaXID', (req,res) => {
     })
 })
 
+router.put('/guardarJugada', (req,res) => {
+    const idPartida = req.body.idPartida;
+    const Tablero = req.body.Tablero;
+    const Jugador1 = req.body.Jugador1;
+    const Jugador2 = req.body.Jugador2;
+    if (!idPartida || !Tablero || !Jugador1 || !Jugador2)
+      return res.status(400).json({mensaje:"Faltan datos"});
+
+    PoolFirestore.collection('Partida').doc(idPartida).update({
+
+      Tablero,
+      Jugador1,
+      Jugador2
+
+  }).then(response => {
+    if (response)
+      return res.status(200).json({mensaje:"Jugada guardada"});
+    else
+      return res.status(200).json({mensaje:"Indefinido"});
+
+  }).catch(err => {
+    console.log(err);
+  })
+})
+
 router.put('/PartidaXID', (req,res) => {
     const idPartida = req.body.idPartida;
     //const tablero = req.body.tablero;
@@ -100,8 +126,8 @@ router.put('/PartidaXID', (req,res) => {
     PoolFirestore.collection('Partida').doc(idPartida).update({
 
     Tablero : {
-      0:[0,0,1,0,0,0,0,0],
-      1:[0,0,1,0,0,0,0,0],
+      0:[0,0,0,0,0,0,0,0],
+      1:[0,0,0,0,0,0,0,0],
       2:[0,0,0,0,0,0,0,0],
       3:[0,0,0,0,0,0,0,0],
       4:[0,0,0,0,0,0,0,0],
@@ -133,6 +159,8 @@ router.put('/PartidaXID', (req,res) => {
     console.log(err);
   })
 })
+
+
 
 
 module.exports = router;

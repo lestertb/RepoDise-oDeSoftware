@@ -16,7 +16,7 @@ import {environment} from '../environments/environment';
 
 import { HttpClientModule } from '@angular/common/http';
 import {FirebaseService} from './services/firebase.service';
-import {TableroService} from './services/tablero.service';
+import { PartidaService} from './services/partida.service';
 import { HomeComponent } from './home/home.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { InicioJugarComponent } from './inicio-jugar/inicio-jugar.component';
@@ -39,7 +39,7 @@ import { InicioJugarComponent } from './inicio-jugar/inicio-jugar.component';
     AngularFirestoreModule,
     HttpClientModule
   ],
-  providers: [FirebaseService,TableroService ],
+  providers: [FirebaseService,PartidaService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

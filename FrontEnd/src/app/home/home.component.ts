@@ -1,10 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Renderer2  } from '@angular/core';
+import { Component, OnInit, Renderer2  } from '@angular/core';
 import {FirebaseService} from '../services/firebase.service';
-import {Router} from '@angular/router';
-
+import {Router, ActivatedRoute } from '@angular/router';
+import { ModelJugada } from '../models/modelJugada';
 
 //Services
-import { TableroService } from '../services/tablero.service';
+import { PartidaService } from '../services/partida.service';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +13,19 @@ import { TableroService } from '../services/tablero.service';
 })
 export class HomeComponent implements OnInit {
 
+  dataJugada = new ModelJugada();
+  actualGameID :any;
+  infoPlayer1 = {
+    id : '',
+    nombre: '',
+    p1Score : 2
+  }
+  infoPlayer2 = {
+    id : '',
+    nombre: '',
+    p2Score : 2
+  }
   player=1; //1 for White, 2 for Black
-  p1Score = 2;
-  p2Score = 2;
   grid = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -30,26 +40,53 @@ export class HomeComponent implements OnInit {
   datosUsuarioLoggedIn : any;
   // @Output() isLogout = new EventEmitter<void>()
   constructor(private router: Router, public firebaseService: FirebaseService,
-   private renderer: Renderer2,public tableroService: TableroService) {
+   private renderer: Renderer2,public partidaService: PartidaService, private _Activatedroute:ActivatedRoute) {
     this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
     if (this.datosUsuarioLoggedIn == null) {
       this.router.navigate(['/login'])
     }
-
-    this.tableroService.getTablero()
-    .subscribe(
-    (data: any) => {
-      console.log(data);
-    }, (err: any) => {
-      console.error(err.error);
-    }
-  )
+    this.infoPlayer1.id = this.datosUsuarioLoggedIn.user.uid;
+    this.infoPlayer1.nombre = this.datosUsuarioLoggedIn.user.displayName;
+    this.actualGameID = this._Activatedroute.snapshot.paramMap.get("idGame")
+    this.infoPlayer2.id = this._Activatedroute.snapshot.paramMap.get("idPlayer2")
+    this.infoPlayer2.nombre = this._Activatedroute.snapshot.paramMap.get("nombreJugador2")
   }
 
   ngOnInit(): void {
     var player0 = document.getElementById("p1") as HTMLInputElement;
     player0.classList.add("animateAreaScore");
     this.refreshGrid();
+  }
+
+  guardarMovimiento(){
+    var tableroWMovimiento = {
+      0:this.grid[0],
+      1:this.grid[1],
+      2:this.grid[2],
+      3:this.grid[3],
+      4:this.grid[4],
+      5:this.grid[5],
+      6:this.grid[6],
+      7:this.grid[7]
+    }
+
+    this.dataJugada.idPartida = this.actualGameID
+    this.dataJugada.Tablero = tableroWMovimiento;
+    this.dataJugada.Jugador1 = this.infoPlayer1
+    this.dataJugada.Jugador2 = this.infoPlayer2
+
+    this.partidaService.putGuardarJugada(this.dataJugada)
+        .subscribe(
+          (data: any) =>{
+            if(data){
+              console.log(data);
+            }
+            else
+               alert("Algo salió mal");
+          }, err => {
+            if (err.error)
+              console.error(err);
+          });
   }
 
   selectCell(row: number, col: number){
@@ -62,8 +99,9 @@ export class HomeComponent implements OnInit {
 
 
         if ((this.player == 1) && (this.grid[row][col]==0)) {
-          this.p1Score ++;
+          this.infoPlayer1.p1Score ++;
           this.grid[row][col]=1;
+          this.guardarMovimiento();
           this.player=2;
           var turn = document.getElementById("colorTurn") as HTMLInputElement;
           turn.innerHTML = "Black Turn";
@@ -71,8 +109,9 @@ export class HomeComponent implements OnInit {
           player2.classList.add("animateAreaScore");
 
         } else if ((this.player==2) && (this.grid[row][col]==0)) {
-          this.p2Score ++;
+          this.infoPlayer2.p2Score ++;
           this.grid[row][col]=2;
+          this.guardarMovimiento();
           this.player=1;
           var turn = document.getElementById("colorTurn") as HTMLInputElement;
           turn.innerHTML = "White Turn";
@@ -146,8 +185,8 @@ export class HomeComponent implements OnInit {
      var player2 = document.getElementById("p2") as HTMLInputElement;
      player2.classList.remove("animateAreaScore");
 
-     this.p1Score = 2;
-     this.p2Score = 2;
+     this.infoPlayer1.p1Score = 2;
+     this.infoPlayer2.p2Score = 2;
 
      player1.classList.add("animateAreaScore");
 

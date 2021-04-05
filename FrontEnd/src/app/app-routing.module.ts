@@ -8,7 +8,7 @@ import {InicioJugarComponent} from './inicio-jugar/inicio-jugar.component'
 const routes: Routes = [
   { path: '', redirectTo:'login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home/:idGame/:idPlayer2/:nombreJugador2', component: HomeComponent},
   { path: 'inicio', component: InicioJugarComponent },
   { path: 'lobby', component: LobbyComponent }
 ];

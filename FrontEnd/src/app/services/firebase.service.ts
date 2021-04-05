@@ -3,7 +3,6 @@ import firebase from 'firebase/app'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { User } from './user.model';
 
 
 @Injectable({
@@ -19,9 +18,12 @@ export class FirebaseService {
     }))
   }
 
-  registerWithEmail(email: string, password: string){
+  registerWithEmail(displayName: string,email: string, password: string){
     return this.firebaseAuth.createUserWithEmailAndPassword(email, password)
     .then((user)=>{
+      user.user.updateProfile({
+        displayName: displayName
+      });
       this.authState = user
     }).catch(error => {
       console.log(error)
