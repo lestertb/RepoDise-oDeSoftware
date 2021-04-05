@@ -26,6 +26,12 @@ export class PartidaService {
     return this.http.put(`${this.urlRoot}/guardarJugada`, data);
   }
 
+  putResetPartida(
+    data: ModelJugada
+  ){
+    return this.http.put(`${this.urlRoot}/resetGame`, data);
+  }
+
   getPartidaXID(
       idPartida: string
     ) {

@@ -4,6 +4,18 @@ BODY {
   background-color:#000000;
   text-align: center;
 }
+
+#custom-target {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  border-style: solid;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
 H1 {
   font-size: 24px;
 }
@@ -315,4 +327,3 @@ button{
   border-color: black;
   border-width: 2px;
 }
-

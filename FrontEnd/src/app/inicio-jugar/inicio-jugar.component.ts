@@ -39,7 +39,25 @@ export class InicioJugarComponent implements OnInit {
   }
 
   crearPartida(form){
-    if (form.valid) {
+    if (this.tipoPartida == "1") {
+      this.dataPartida.nombreJugador2 = "Maquina"
+      this.llenarDatosPartida()
+      this.partidaService.postPartida(this.dataPartida)
+          .subscribe(
+            (data: any) =>{
+              if(data){
+                this.idGameCreated = data.idGame
+                this.router.navigate(['/home', this.idGameCreated, this.idsAuto, this.dataPartida.nombreJugador2],{skipLocationChange: true})
+                alert(data.mensaje);
+              }
+              else
+                 alert("Algo salió mal");
+            }, err => {
+              if (err.error)
+                console.error(err);
+            });
+    }
+    else if (form.valid) {
       this.llenarDatosPartida()
       this.partidaService.postPartida(this.dataPartida)
           .subscribe(

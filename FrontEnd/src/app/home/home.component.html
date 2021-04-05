@@ -5,7 +5,7 @@
 <br>
 <br>
 <br>
-<div id="colorTurn" class="centerText" style="color: #020202; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; ">White Turn</div>
+<div id="colorTurn" class="centerText" style="color: #020202; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; ">Turno de: {{infoPlayer1.nombre}}</div>
 <div id="grid">
   <div class="row">
     <div class="cell" id="cell00" (click)="selectCell(0,0);">
@@ -218,14 +218,14 @@
 </div>
 
 <div class="pointsOfPlayerOne" id="p1"><span id="player1"></span>
-  <p class="areaPoints1">Player 1</p>
-  Score: {{p1Score}}
-  <img class="iconPosition" src="assets/white-circle.png" alt="iconWhite">
+  <p class="areaPoints1">{{infoPlayer1.nombre}}</p>
+  Score: {{infoPlayer1.p1Score}}
+  <img class="iconPosition" src="assets/black-circle.png" alt="iconBlack">
 </div>
 <div class="pointsOfPlayerTwo" id="p2"><span id="player2"></span>
-  <p class="areaPoints2">Player 2</p>
-  Score: {{p2Score}}
-  <img class="iconPosition" src="assets/black-circle.png" alt="iconWhite">
+  <p class="areaPoints2">{{infoPlayer2.nombre}}</p>
+  Score: {{infoPlayer2.p2Score}}
+  <img class="iconPosition" src="assets/white-circle.png" alt="iconWhite">
 </div>
 
 <button (click)="resetGame()" style="margin-left: 980px;">
