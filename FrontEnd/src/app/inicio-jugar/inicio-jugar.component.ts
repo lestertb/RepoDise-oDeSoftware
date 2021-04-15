@@ -64,7 +64,7 @@ export class InicioJugarComponent implements OnInit {
             (data: any) =>{
               if(data){
                 this.idGameCreated = data.idGame
-                this.router.navigate(['/home', this.idGameCreated, this.idsAuto, this.dataPartida.nombreJugador2],{skipLocationChange: true})
+                this.router.navigate(['/home', this.idGameCreated, this.idsAuto, this.dataPartida.nombreJugador2])
                 alert(data.mensaje);
               }
               else

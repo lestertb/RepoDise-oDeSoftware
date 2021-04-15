@@ -17,9 +17,10 @@ app.use(bodyParser.json());
 
 
 
+
 //CORS - Mejorar middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
   // res.header('Access-Control-Allow-Headers', '*');
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -49,5 +50,6 @@ app.use((err, req, res) => {
   res.status(err.status || 500)
   .json({error:{message: err.message}});
 });
+
 
 module.exports = app;

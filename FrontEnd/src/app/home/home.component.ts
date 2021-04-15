@@ -1,8 +1,9 @@
-import { Component, OnInit, Renderer2  } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef  } from '@angular/core';
 import {FirebaseService} from '../services/firebase.service';
 import {Router, ActivatedRoute } from '@angular/router';
 import { ModelJugada } from '../models/modelJugada';
 import Swal from 'sweetalert2';
+import { WebSocketService } from '../services/web-socket.service';
 
 //Services
 import { PartidaService } from '../services/partida.service';
@@ -13,6 +14,8 @@ import { PartidaService } from '../services/partida.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  socket: any;
 
   dataJugada = new ModelJugada();
   actualGameID :any;
@@ -41,10 +44,11 @@ export class HomeComponent implements OnInit {
   datosUsuarioLoggedIn : any;
   // @Output() isLogout = new EventEmitter<void>()
   constructor(private router: Router, public firebaseService: FirebaseService,
-   private renderer: Renderer2,public partidaService: PartidaService, private _Activatedroute:ActivatedRoute) {
+   private renderer: Renderer2,public partidaService: PartidaService, private websocketService: WebSocketService,
+    private _Activatedroute:ActivatedRoute) {
     this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
     if (this.datosUsuarioLoggedIn == null) {
-      this.router.navigate(['/login'])
+     this.router.navigate(['/login'])
     }
     this.infoPlayer1.id = this.datosUsuarioLoggedIn.user.uid;
     this.infoPlayer1.nombre = this.datosUsuarioLoggedIn.user.displayName;
@@ -53,16 +57,28 @@ export class HomeComponent implements OnInit {
     this.infoPlayer2.nombre = this._Activatedroute.snapshot.paramMap.get("nombreJugador2")
   }
 
-  ngOnInit(): void {
+  public ngOnInit() {
     var player0 = document.getElementById("p1") as HTMLInputElement;
     player0.classList.add("animateAreaScore");
-    this.refreshGrid();
+    // this.websocketService.listen("grid").subscribe((data)=>{
+    //   this.grid = data
+    //   this.refreshGrid();
+    // });
+     this.refreshGrid();
+  }
+
+  /**
+   * ngAfterViewInit
+   */
+  public ngAfterViewInit() {
+    // this.websocketService.on("grid", data => {
+    //   this.grid = data;
+    // });
   }
 
 
-
-
   actualizarPartida(tipo:number){
+
     var tablero = {
       0:this.grid[0],
       1:this.grid[1],
@@ -84,7 +100,7 @@ export class HomeComponent implements OnInit {
           .subscribe(
             (data: any) =>{
               if(data){
-                //console.log(data);
+                //this.websocketService.emit("move", this.grid);
               }
               else
                  alert("Algo salió mal");
@@ -331,7 +347,6 @@ export class HomeComponent implements OnInit {
             }
          }
      }
-
   }
 
   resetGame() {

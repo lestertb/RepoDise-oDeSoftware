@@ -2,10 +2,12 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const http = require('http');
 
 //Usar las rutas
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
+
 
 //Config FireBase
 const admin = require('firebase-admin');
@@ -135,8 +137,5 @@ router.put('/resetGame', (req,res) => {
     console.log(err);
   })
 })
-
-
-
 
 module.exports = router;
